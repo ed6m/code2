@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عمليات الجذر التربيعي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 20px;
+            background-color: #e9ecef;
+            color: #343a40;
+            font-size: 18px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+
+        label {
+            font-size: 20px;
+            color: #495057;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            margin-right: 10px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            font-size: 18px;
+        }
+
+        input[type="number"]:focus {
+            border-color: #0056b3;
+            outline: none;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 18px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .result-frame {
+            background-color: white;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 5px;
+            width: 90%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            font-size: 18px;
+        }
+
+        .result-frame:hover {
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            label {
+                font-size: 18px;
+            }
+
+            input[type="number"] {
+                margin-bottom: 10px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>حاسبة العمليات الرياضية</h1>
+    <label for="numberInput">ادخل رقماً:</label>
+    <input type="number" id="numberInput" required>
+    <button onclick="calculate()">أظهر النتائج</button>
+
+    <div class="result" id="results"></div>
+
+    <script>
+        function formatNumber(num) {
+            const str = num.toString();
+            const decimalIndex = str.indexOf('.');
+            if (decimalIndex === -1) {
+                return str + '.00'; // إذا لم يكن هناك فاصلة عشرية، أضف .00
+            }
+            return str.slice(0, decimalIndex + 3); // احتفظ بمرتبتي الأرقام بعد الفاصلة
+        }
+
+        function calculate() {
+            const input = document.getElementById('numberInput').value;
+            const number = parseFloat(input);
+            const results = [];
+
+            if (!isNaN(number) && number >= 0) { // Check for non-negative number
+                // العملية 1
+                const result1 = Math.pow(Math.sqrt(number) + 0.25, 2);
+                results.push(`Opening Time: ${formatNumber(number)}`);
+                results.push(` A1: ${formatNumber(result1)}`);
+
+                // العملية 2
+                const result2 = Math.pow(Math.sqrt(number) + 0.125, 2);
+                results.push(` A2: ${formatNumber(result2)}`);
+
+                // العملية 3
+                const result3 = Math.pow(Math.sqrt(number) - 0.25, 2);
+                results.push(` B1: ${formatNumber(result3)}`);
+
+                // العملية 4
+                const result4 = Math.pow(Math.sqrt(number) - 0.125, 2);
+                results.push(` B2: ${formatNumber(result4)}`);
+
+                // العملية 5
+                const C1 = (result2 - number) / 2 + number;
+                results.push(` 1 C: ${formatNumber(C1)}`);
+
+                // العملية 6
+                const C2 = (result1 - result2) / 2 + result2;
+                results.push(` 2 C: ${formatNumber(C2)}`);
+
+                // العملية 7
+                const C3 = (number - result4) / 2 + result4;
+                results.push(` 3 C: ${formatNumber(C3)}`);
+
+                // العملية 8
+                const C4 = (result3 - result4) / 2 + result4;
+                results.push(` 4 C: ${formatNumber(C4)}`);
+            } else {
+                results.push('يرجى إدخال رقم صالح وغير سالب.');
+            }
+
+            // Clear previous results
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = '';
+
+            // Create a frame for each result
+            results.forEach(result => {
+                const frame = document.createElement('div');
+                frame.className = 'result-frame';
+                frame.textContent = result;
+                resultsContainer.appendChild(frame);
+            });
+        }
+
+        // Show alert automatically when the page loads
+        window.onload = function() {
+            showAlert();
+        };
+
+        function showAlert() {
+            alert("For the skinny 😉");
+        }
+    </script>
+</body>
+
+</html>
